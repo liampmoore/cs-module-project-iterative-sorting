@@ -54,5 +54,46 @@ What is the time and space complexity of the counting sort algorithm?
 def counting_sort(arr, maximum=None):
     # Your code here
 
+    if len(arr) == 0:
+        return arr
 
+    # if there is no specified maximum you add (n) complexity to find the maximum
+    if maximum is None:
+        maximum = 0
+        for value in arr:
+            if value < 0:
+                return "Error, negative numbers not allowed in Count Sort"
+            if value > maximum:
+                maximum = value
+
+    # create an array of zeros with a length equal to the maximum value plus 1 (to account for zero)
+    buckets = [0] * (maximum + 1)
+
+    # loop through the original arr (n) and increment values in buckets
+    for value in arr:
+            if value < 0:
+                return "Error, negative numbers not allowed in Count Sort"
+            buckets[value] += 1
+    
+    # for the purpose of creating the new array, keep track of the currently selected possible value in the array of possible values
+    current_value = 0
+    # keep track of the index of the original array as you loop through it
+    array_index = 0
+
+    # while the current index is less than the len of the original array (n + max)
+    while array_index < len(arr):
+        # if the currently selected value bucket has zero values:
+        if buckets[current_value] == 0:
+            current_value += 1
+        # else
+        else:
+            # decrement the bucket of the currently selected value
+            buckets[current_value] -= 1
+            # add the value to the current index of the original array
+            arr[array_index] = current_value
+            # increment the current index of the array
+            array_index += 1
+    
     return arr
+
+# total is O(n + max) time complexity with 0(n + max) space complexity
